@@ -22,6 +22,19 @@
 <img src="../image/image_buildguide_1.jpg" width=50% title="半田付け済みLED基板表">
 <img src="../image/image_buildguide_2.jpg" width=50% title="半田付け済みLED基板裏">
 ## LEDの半田付け  
+LED赤とLED青を半田付けしていきます。  
+<img src="../image/image_buildguide_3.jpg" width=50% title="LED赤と青">  
+LED赤は240個、LED青は120個実装します。量が多い方がLED赤ですね    
+確認のためテスターで光らせて色を見てください  
+4列縦に並んでいるのがLED赤のパッド、2列なのがLED青になります  
+赤、青、赤、青・・・と交互に半田付けするのがやり易いです  
+<img src="../image/image_buildguide_4.jpg" width=50% title="LED赤と青のパッド">  
+LEDは方向があります。アノード→カソードの向きに電流が流れます  
+逆に実装すると電流が流れず、LEDが点灯しません  
+LEDはアノードが円の外側、カソードが円の内側になるように実装します  
+LEDの左下部にカソードのマークがついています。このマークが円の内側になるように実装すれば、正しい向きに実装されます  
+<img src="../image/image_buildguide_5.jpg" width=50% title="LED向き">
+
 
 ## モータードライバの半田付け
 ## ESP-WROOM-32の半田付け
