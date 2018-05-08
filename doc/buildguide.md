@@ -34,11 +34,19 @@ LEDは方向があります。アノード→カソードの向きに電流が�
 LEDはアノードが円の外側、カソードが円の内側になるように実装します  
 LEDの左下部にカソードのマークがついています。このマークが円の内側になるように実装すれば、正しい向きに実装されます  
 <img src="../image/image_buildguide_5.jpg" width=50% title="LED向き">
-
-
+  
 ## LEDドライバの半田付け  
-  
-  
+次に基板裏側にLEDドライバを半田付けします    
+<img src="../image/image_buildguide_6.jpg" width=50% title="LEDドライバ">  
+基板裏面のU1～U9に実装します  
+<img src="../image/image_buildguide_7.jpg" width=50% title="基板裏面">  
+LEDドライバのマークと基板シルクのマークを合わせて実装します  
+<img src="../image/image_buildguide_8.jpg" width=50% title="LEDドライバマーク">  
+U1に乗せると以下のような向きになります  
+<img src="../image/image_buildguide_9.jpg" width=50% title="U1にLEDドライバ">  
+U1からU9まで8個実装します(U5はESP-WROOM-32)  
+
+
 ## ESP-WROOM-32の半田付け
 ## 抵抗・コンデンサの半田付け
 ## 電源基板、Tバーの組み立て
