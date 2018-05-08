@@ -36,7 +36,9 @@ LEDの左下部にカソードのマークがついています。このマー�
 <img src="../image/image_buildguide_5.jpg" width=50% title="LED向き">
 
 
-## LEDドライバの半田付け
+## LEDドライバの半田付け  
+  
+  
 ## ESP-WROOM-32の半田付け
 ## 抵抗・コンデンサの半田付け
 ## 電源基板、Tバーの組み立て
