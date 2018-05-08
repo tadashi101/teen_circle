@@ -19,8 +19,8 @@
 | ACアダプタ9V1.3A | 1 |  |  
   
 半田付け後の基板はこのようになります  
-<img src="../image/image_buildguide_1.jpg" width=40% title="半田付け済みLED基板表">
-<img src="../image/image_buildguide_2.jpg" width=40% title="半田付け済みLED基板裏">
+<img src="../image/image_buildguide_1.jpg" width=50% title="半田付け済みLED基板表">
+<img src="../image/image_buildguide_2.jpg" width=50% title="半田付け済みLED基板裏">
 ## LEDの半田付け  
 
 ## モータードライバの半田付け
