@@ -9,9 +9,9 @@
 | LED青 | 120 | 少し多めに入れてます |
 | LEDドライバ MBI5024 | 8 |  |
 | ESP-WROOM-32 | 1 |  |
-| 抵抗10k 1608サイズ | 11 |  |
+| 抵抗10k 1608サイズ | 11 | 1個余分に入ってるかも |
 | コンデンサ10u 1608サイズ | 1 |  |
-| コンデンサ0.1u 1608サイズ | 8 |  |
+| コンデンサ0.1u 1608サイズ | 10 | 1個余分に入ってるかも |
 | ピンヘッダオス 2×3 1.27mmピッチ | 1 |  |
 | ネジ | 1 |  |
 | スペーサー | 1 |  |
@@ -34,7 +34,7 @@ LEDは方向があります。アノード→カソードの向きに電流が�
 LEDはアノードが円の外側、カソードが円の内側になるように実装します  
 LEDの左下部にカソードのマークがついています。このマークが円の内側になるように実装すれば、正しい向きに実装されます  
 <img src="../image/image_buildguide_5.jpg" width=70% title="LED向き">  
-<img src="../image/image_buildguide_5_2.jpg" width=70% title="LED向き">
+<img src="../image/image_buildguide_5_2.JPG" width=70% title="LED向き">
   
 ## LEDドライバの半田付け  
 次に基板裏側にLEDドライバを半田付けします    
@@ -58,7 +58,35 @@ ESP-WROOM-32を半田付けします。ESP32と呼ばれてるWiFIモジュー�
 ## 抵抗・コンデンサの半田付け  
 抵抗、コンデンサを半田付けします  
 10uFのコンデンサは電源基板に2つ半田付け済みなので、1つしか入っていません  
-<img src="../image/image_buildguide_13.JPG" width=70% title="抵抗,コンデンサ">  
+<img src="../image/image_buildguide_13.jpg" width=70% title="抵抗,コンデンサ">  
 0.1uのコンデンサをC1,C2,C4,C5,C6,c7,C8,C9,C10,C11の計10個実装します  
-<img src="../image/image_buildguide_14.jpg" width=70% title="抵抗,コンデンサ">
-## 電源基板、Tバーの組み立て
+<img src="../image/image_buildguide_14.jpg" width=70% title="コンデンサ0.1u">   
+10uのコンデンサをC3に実装します   
+<img src="../image/image_buildguide_15.jpg" width=70% title="コンデンサ10u">  
+10kの抵抗をR1～R11に11個実装します    
+<img src="../image/image_buildguide_16.jpg" width=70% title="抵抗10k">  
+  
+## ピンヘッダの半田付け、電源基板、Tバーの組み立て  
+電源基板を接続するためのピンヘッダを半田付けします  
+以下のようなフィルムの中に入っています      
+<img src="../image/image_buildguide_17.jpg" width=70% title="ピンヘッダ">  
+  
+J1のパッドに半田付けします  
+<img src="../image/image_buildguide_18.jpg" width=70% title="J1">  
+半田付けは以上です.  
+J3のパッドですが、ESP32のファームウェア書き込み用です  
+aitendoなどで1.27mmピッチの2列の[ピンヘッダ](http://www.aitendo.com/product/6880)、[ソケット](http://www.aitendo.com/product/11345)を購入して半田付けするとJ3のピンヘッダからファームウェアの変更ができるようになります  
+  
+スペーサー(ただのナノブロック)をLED基板裏に両面テープで貼り付けます   
+スペーサーに両面テープは貼り付け済みです    
+スペーサーを取り付けないと電源基板を接続したときに少しグラグラします  
+<img src="../image/image_buildguide_19.jpg" width=70% title="スペーサー">  
+スペーサー上部の両面テープの剥離紙を剥がして、J3に実装済みの電源基板を接続します  
+<img src="../image/image_buildguide_20.jpg" width=70% title="電源基板接続">  
+  
+最後にTバーと基板をネジで止めて完成です  
+
+
+
+
+
