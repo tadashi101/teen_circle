@@ -53,10 +53,10 @@ U1からU9まで8個実装します(U5はESP-WROOM-32)
 ESP-WROOM-32を半田付けします。ESP32と呼ばれてるWiFIモジュールです  
 <img src="../image/image_buildguide_11.jpg" width=70% title="ESP-WROOM-32">   
 半田付けが3辺あるので位置合わせは慎重に  
-<img src="../image/image_buildguide_12.jpg" width=70% title="ESP-WROOM-32位置"> 
+<img src="../image/image_buildguide_12.JPG" width=70% title="ESP-WROOM-32位置"> 
   
 ## 抵抗・コンデンサの半田付け  
 抵抗、コンデンサを半田付けします  
 10uFのコンデンサは電源基板に2つ半田付け済みなので、1つしか入っていません  
-<img src="../image/image_buildguide_13.jpg" width=70% title="抵抗,コンデンサ">
+<img src="../image/image_buildguide_13.JPG" width=70% title="抵抗,コンデンサ">
 ## 電源基板、Tバーの組み立て
