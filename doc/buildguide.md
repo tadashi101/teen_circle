@@ -58,7 +58,7 @@ ESP-WROOM-32を半田付けします。ESP32と呼ばれてるWiFIモジュー�
 ## 抵抗・コンデンサの半田付け  
 抵抗、コンデンサを半田付けします  
 10uFのコンデンサは電源基板に2つ半田付け済みなので、1つしか入っていません  
-<img src="../image/image_buildguide_13.jpg" width=70% title="抵抗,コンデンサ">  
+<img src="../image/image_buildguide_13.JPG" width=70% title="抵抗,コンデンサ">  
 0.1uのコンデンサをC1,C2,C4,C5,C6,c7,C8,C9,C10,C11の計10個実装します  
 <img src="../image/image_buildguide_14.jpg" width=70% title="コンデンサ0.1u">   
 10uのコンデンサをC3に実装します   
