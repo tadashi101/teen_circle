@@ -52,6 +52,7 @@ U1からU9まで8個実装します(U5はESP-WROOM-32)
   
 ## ESP-WROOM-32の半田付け  
 ESP-WROOM-32を半田付けします。ESP32と呼ばれてるWiFiモジュールです  
+ファームウェアは既に書き込み済みです  
 <img src="../image/image_buildguide_11.jpg" width=70% title="ESP-WROOM-32">   
 半田付けが3辺あるので位置合わせは慎重に  
 <img src="../image/image_buildguide_12.JPG" width=70% title="ESP-WROOM-32位置"> 
