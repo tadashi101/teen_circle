@@ -68,7 +68,7 @@ ESP-WROOM-32を半田付けします。ESP32と呼ばれてるWiFiモジュー�
   
 ## ピンヘッダの半田付け、電源基板、Tバーの組み立て  
 電源基板を接続するためのピンヘッダを半田付けします  
-以下のようなフィルムの中に入っています      
+以下のようなフィルムの中に入っています  
 <img src="../image/image_buildguide_17.jpg" width=70% title="ピンヘッダ">  
   
 J1のパッドに半田付けします  
@@ -77,14 +77,17 @@ J1のパッドに半田付けします
 J3のパッドですが、ESP32のファームウェア書き込み用です  
 aitendoなどで1.27mmピッチの2列の[ピンヘッダ](http://www.aitendo.com/product/6880)、[ソケット](http://www.aitendo.com/product/11345)を購入して半田付けするとJ3のピンヘッダからファームウェアの変更ができるようになります  
   
-スペーサー(ただのナノブロック)をLED基板裏に両面テープで貼り付けます   
+スペーサー(ただのナノブロック)をLED基板裏に両面テープで貼り付けます  
 スペーサーに両面テープは貼り付け済みです    
 スペーサーを取り付けないと電源基板を接続したときに少しグラグラします  
 <img src="../image/image_buildguide_19.jpg" width=70% title="スペーサー">  
 スペーサー上部の両面テープの剥離紙を剥がして、J3に実装済みの電源基板を接続します  
 <img src="../image/image_buildguide_20.jpg" width=70% title="電源基板接続">  
   
-最後にTバーと基板をネジで止めて完成です  
+最後に基板とTバーの間にワッシャーをはさんで基板ごとネジで止めて完成です  
+<img src="../image/image_buildguide_21.jpg" width=70% title="ワッシャー、Tバー">  
+<img src="../image/image_buildguide_22.jpg" width=70% title="ワッシャー、Tバー">  
+
 
 
 
