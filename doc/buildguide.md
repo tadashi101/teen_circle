@@ -86,7 +86,12 @@ aitendoなどで1.27mmピッチの2列の[ピンヘッダ](http://www.aitendo.co
   
 最後に基板とTバーの間にワッシャーをはさんで基板ごとネジで止めて完成です  
 <img src="../image/image_buildguide_21.jpg" width=70% title="ワッシャー、Tバー">  
-<img src="../image/image_buildguide_22.jpg" width=70% title="ワッシャー、Tバー">  
+<img src="../image/image_buildguide_22.jpg" width=70% title="横から">  
+<img src="../image/image_buildguide_23.jpg" width=70% title="裏から">  
+  
+D121のシルクがある位置でが０分の列になります   
+この位置を真上にすると時間が読みやすくなります  
+<img src="../image/image_buildguide_24.jpg" width=70% title="裏から">  
 
 
 
