@@ -23,7 +23,7 @@
 <img src="../image/image_buildguide_1.jpg" width=70% title="半田付け済みLED基板表">
 <img src="../image/image_buildguide_2.jpg" width=70% title="半田付け済みLED基板裏">
 ## LEDの半田付け  
-LED赤とLED青を半田付けしていきます。  
+LED赤とLED青を半田付けしていきます 
 <img src="../image/image_buildguide_3.jpg" width=70% title="LED赤と青">  
 LED赤は240個、LED青は120個実装します。量が多い方がLED赤ですね    
 確認のためテスターで光らせて色を見てください  
