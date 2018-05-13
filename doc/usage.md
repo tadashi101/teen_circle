@@ -14,7 +14,16 @@ teen circleの時刻設定方法の説明をします
   
 5. 以下の画面で時刻を設定できます。System Time Setをタップでスマートフォンのシステム時刻をセットします  
 また、テキストボックスに任意の日時を入力しManual Time Setをタップで任意の時間を設定できます  
-<img src="../image/image_usage_4.png" width=50%> 
+<img src="../image/image_usage_4.png" width=50%>  
   
 ※システム時刻は画面左側のテキストBOXには反映されません  
   
+  ##デモモード  
+動作デモ用にLEDを順に光らすパターンを繰り返します  
+LEDの実装確認などに使用してください  
+1. 192.168.4.1/demo.htmlとブラウザのURL欄に入力して実行します  
+  
+2.以下の画面が表示されたらDEMO1かDEMO2をタップしてモードを選択します  
+<img src="../image/image_usage_5.png" width=50%>  
+MODE1 : 起動時のLED点灯パターンと同じ。青LEDと赤LEDが順に1列のみ1周点灯する  
+MODE2 : 青LEDと赤LEDが順に1周点灯します。1度LEDの列が点灯すると全てLEDが点灯するまで消えません  
