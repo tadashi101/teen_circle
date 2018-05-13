@@ -15,3 +15,6 @@ teen circleの時刻設定方法の説明をします
 5. 以下の画面で時刻を設定できます。System Time Setをタップでスマートフォンのシステム時刻をセットします  
 また、テキストボックスに任意の日時を入力しManual Time Setをタップで任意の時間を設定できます  
 <img src="../image/image_usage_4.png" width=50%> 
+  
+※システム時刻は画面左側のテキストBOXには反映されません  
+  
