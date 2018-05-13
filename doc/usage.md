@@ -29,4 +29,4 @@ LEDの実装確認などに使用してください
 <img src="../image/image_usage_5.png" width=50%>  
   
 MODE1 : 起動時のLED点灯パターンと同じ。青LEDと赤LEDが順に1列のみ1周点灯します  
-MODE2 : 青LEDと赤LEDの全てのLEDが順に1周点灯します  
+MODE2 : 青LEDと赤LEDの全てのLEDが順に1周点灯しま(MODE2のモードが変わった1周目はバグで点灯しないLED列がありますが、2周目からは正しく点灯します)  
