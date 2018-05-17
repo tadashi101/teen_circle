@@ -37,5 +37,5 @@ Writing～の表示になるとIO00側のボタンも離します
 <img src="../image/image_flash_5.PNG" width=70% title="Writing">  
 Hard resetting..の表示になったらファームウェアが書き込めてます  
 <img src="../image/image_flash_6.PNG" width=70% title="Hard_reset">  
-リセットするためにENのスイッチのボタンを押して、離します   
+リセットするためにENのスイッチのボタンを押して、離します  
 これでリセットがかかり、書き込まれたファームでESP32が起動します  
