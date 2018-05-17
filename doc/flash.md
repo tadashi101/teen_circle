@@ -1,4 +1,4 @@
-# スイッチ ファームウェアの書き込み方法  
+# ファームウェアの書き込み方法  
 ESP32へのファームウェア書き込み方法を説明します  
 
 1. ハーフピッチで2列の[ピンヘッダ](http://www.aitendo.com/product/6880)、[ピンソケット](http://www.aitendo.com/product/11345)などをJ3に半田付けします  
@@ -37,5 +37,5 @@ Writing～の表示になるとIO00側のボタンも離します
 <img src="../image/image_flash_5.PNG" width=70% title="Writing">  
 Hard resetting..の表示になったらファームウェアが書き込めてます  
 <img src="../image/image_flash_6.PNG" width=70% title="Hard_reset">  
-リセットするためにENのスイッチのボタンを押して、離します  
+リセットするためにENのスイッチのボタンを押して、離します   
 これでリセットがかかり、書き込まれたファームでESP32が起動します  
