@@ -1,6 +1,7 @@
 # ファームウェアの書き込み方法  
-ESP32へのファームウェア書き込み方法を説明します  
-
+同梱されてるWi-FiモジュールESP-WROOM-32(ESP32)にはあらかじめファームウェアを書き込んでいます(こんな[ジグ](https://ja.aliexpress.com/store/product/ESP32-Test-Board-Small-Batch-Burn-Fixture-Min-System-Development-Board-For-ESP-WROOM-32-ESP/133513_32839223283.html)で)  
+このページの内容はファームウェアをアップデート、もしくは変更したい人向けになります  
+  
 1. ハーフピッチで2列の[ピンヘッダ](http://www.aitendo.com/product/6880)、[ピンソケット](http://www.aitendo.com/product/11345)などをJ3に半田付けします  
 <img src="../image/image_flash_1.jpg" width=70% title="J3">  
   
