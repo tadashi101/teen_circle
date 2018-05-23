@@ -4,6 +4,9 @@
 teen circleのgithubのページです
 回路図、ファームウェア、組み立て説明書、使い方説明書などをまとめています  
   
+紹介動画  
+[![表示できません](http://img.youtube.com/vi/WW388IgG8ik/0.jpg)](http://www.youtube.com/watch?v=WW388IgG8ik)
+  
 ## Documents  
 [組み立て説明書](doc/buildguide.md)  
 組み立て方の説明です、部品の半田付け、組み立てなどが記載してあります  
