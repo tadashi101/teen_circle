@@ -22,6 +22,11 @@
 半田付け後の基板はこのようになります  
 <img src="../image/image_buildguide_1.jpg" width=70% title="半田付け済みLED基板表">
 <img src="../image/image_buildguide_2.jpg" width=70% title="半田付け済みLED基板裏">
+  
+Rev2では基板にシルクが記載されています  
+またピンヘッダのピッチが2.54mmに変更されています  
+<img src="../image/Rev2/image_rev2_buildguide_1.png" width=70% title="Rev2半田付け済みLED基板裏">  
+  
 ## LEDの半田付け  
 LED赤とLED青を半田付けしていきます 
 <img src="../image/image_buildguide_3.jpg" width=70% title="LED赤と青">  
@@ -72,6 +77,8 @@ ESP-WROOM-32を半田付けします。ESP32と呼ばれてるWi-Fiモジュー�
 電源基板を接続するためのピンヘッダを半田付けします  
 以下のようなフィルムの中に入っています  
 <img src="../image/image_buildguide_17.jpg" width=70% title="ピンヘッダ">  
+Rev2ではそのまま入っています  
+<img src="../image/Rev2/image_rev2_buildguide_4.JPG" width=70% title="Rev2_ピンヘッダ">
   
 J1のパッドに半田付けします  
 <img src="../image/image_buildguide_18.jpg" width=70% title="J1">  
@@ -86,15 +93,22 @@ aitendoなどで1.27mmピッチの2列の[ピンヘッダ](http://www.aitendo.co
 スペーサー上部の両面テープの剥離紙を剥がして、J3に実装済みの電源基板を接続します  
 <img src="../image/image_buildguide_20.jpg" width=70% title="電源基板接続">  
   
+Rev2では電源基板が変更になりスペーサーが廃止されています  
+接続すると以下のようになります  
+<img src="../image/Rev2/image_rev2_buildguide_2.JPG" width=70% title="Rev2電源基板接続">  
+  
 最後に基板とTバーの間にワッシャーをはさんで基板ごとネジで止めて完成です  
+(Rev2ではワッシャーは廃止されています)  
 <img src="../image/image_buildguide_21.jpg" width=70% title="ワッシャー、Tバー">  
 <img src="../image/image_buildguide_22.jpg" width=70% title="横から">  
 <img src="../image/image_buildguide_23.jpg" width=70% title="裏から">  
   
 D121のシルクがある位置が０分の列になります   
 この位置を真上にすると時間が読みやすくなります  
-<img src="../image/image_buildguide_24.jpg" width=70% title="裏から">  
+<img src="../image/image_buildguide_24.jpg" width=70% title="0分">  
   
+Rev2から0分を表すシルクが追加になっています  
+<img src="../image/Rev2/image_rev2_buildguide_3.JPG" width=70% title="Rev2_0分">  
 # 注意点  
 電源基板のレギュレータはかなり熱くなります。手を触れないようにお願いします  
   
