@@ -1,0 +1,65 @@
+<html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+            <style type="text/css">
+                body {
+                    background-color:#050e1d;
+                    color: #c7c7c7;
+                }
+                img { 
+                max-width: 80%; 
+                height:auto;
+                }
+            </style> 
+            <script src="setting.js"></script>        
+        </head>
+        <body>
+            <div style="text-align:center">
+                        <img src="teen_circle_logo.png" alt="logo">
+            </div>
+                <br>
+            <div style="text-align:center">
+                  <img src="btn_setting_disable.png" alt="">
+            </div>
+            <form name="form1">
+                <table border="0">
+                    <tr>
+                    <td align="right"><b> year:</b></td>
+                    <td><input type="text" name="year" id="id_year" size="5" maxlength="4" value="2018"></td>
+                    </tr>
+                    <tr>
+                    <td align="right"><b> month:</b></td>
+                    <td><input type="text" name="month" id="id_month" size="5" maxlength="2" value="3"></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><b> day:</b></td>
+                        <td><input type="text" name="day" id="id_day"  size="5" maxlength="2" value="2"></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><b> hour:</b></td>
+                        <td><input type="text" name="hour" id="id_hour" size="5" maxlength="2" value="19"></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><b> min:</b></td>
+                        <td><input type="text" name="min" id="id_min" size="5" maxlength="2" value="50"></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><b> sec:</b></td>
+                        <td><input type="text" name="sec" id="id_sec" size="5" maxlength="2" value="47"</td>
+                    </tr>
+                </table>   
+                    <br>
+                <table border="0">
+                    <tr>
+                    <td>
+                    <a href="JavaScript:void(0)" onClick="timeset();"><img src="btn_manual_normal.png"></a>
+                    </td>
+                    <td>
+                    <a href="JavaScript:void(0)" onClick="system_timeset();"><img src="btn_system_normal.png"></a>
+                    </td>
+                    </tr>
+                </table>
+                </form>
+                <div id="output"></div>
+        </body>
+</html>
