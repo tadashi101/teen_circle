@@ -4,7 +4,7 @@
 teen circleのgithubのページです
 回路図、ファームウェア、組み立て説明書、使い方説明書などをまとめています  
 Rev２から調光機能を追加しました。[設定方法はこちら](doc/usage.md)  
-以下の画像のようにスマートフォンのUIから明るさを変更することができます  
+以下の画像のようにスマートフォンの画面から明るさを変更することができます  
 <img src="./image/Rev2/image_rev2_comp.jpg" width=50% hight=50% title="light_comp">  
   
 紹介動画  
