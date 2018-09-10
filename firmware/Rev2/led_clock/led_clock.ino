@@ -19,19 +19,6 @@ uint8_t led_data[LED_DRIVER_NUM*2] = {0};
 uint8_t mintable[8] = {0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
 int brightness = 0;
 
-typedef struct {
-  int year;
-  int month;
-  int date;
-  int hour;
-  int minute;
-  int second;
-} ut2date_date_t;
-
-static volatile unsigned long elap_time = 0; 
-struct tm tmset = {0};
-volatile ut2date_date_t date_now;
-
 AsyncWebServer server(80);
 const char *ap_ssid = ""; //ESP32 softAP SSID
 const char *ap_pass = ""; //ESP32 softAP password
@@ -63,22 +50,38 @@ void onBody(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t in
         if (!root.success()) {
           Serial.println("parseObject() failed");
         }
+
+        struct tm tmset;
         tmset.tm_year = root["year"];
         tmset.tm_mon = root["month"];
         tmset.tm_mday = root["day"];
         tmset.tm_hour = root["hour"];
         tmset.tm_min = root["min"];
         tmset.tm_sec = root["sec"];
-    
+
         Serial.printf("year: %d\n", tmset.tm_year);
         Serial.printf("mon: %d\n", tmset.tm_mon);
         Serial.printf("day: %d\n", tmset.tm_mday);
         Serial.printf("hour: %d\n", tmset.tm_hour);
         Serial.printf("min: %d\n", tmset.tm_min);
         Serial.printf("sec: %d\n", tmset.tm_sec);
-    
-        elap_time = date2ut(tmset.tm_year, tmset.tm_mon, tmset.tm_mday, tmset.tm_hour, tmset.tm_min, tmset.tm_sec);
-    
+
+        tmset.tm_year -= 1900;
+        tmset.tm_mon  -= 1;
+
+        time_t elap_time = mktime(&tmset);
+        struct timeval tv;
+        tv.tv_sec = elap_time;
+        tv.tv_usec = 0;
+
+        struct timezone tz;
+        //setenv("TZ", time_zone, 1);
+        //tzset();
+        tz.tz_minuteswest = 0;
+        tz.tz_dsttime = 0;
+
+        settimeofday(&tv, &tz);
+        
         Serial.printf("settime=%ld\r\n", elap_time);
         
     }else if(url == "/mode"){
@@ -275,22 +278,14 @@ void one_sec_task(void *arg){
   while (1) {
     vTaskDelayUntil(&xLastWakeTime, xDelay/portTICK_RATE_MS);
 
-      elap_time+=1;
-      ut2date(&date_now, elap_time);
-
+      struct tm date_now;
+      getLocalTime(&date_now);
     
-        Serial.printf("year: %d\r\n", date_now.year);
-        Serial.printf("mon: %d\r\n", date_now.month);
-        Serial.printf("day: %d\r\n", date_now.date);
-        Serial.printf("hour: %d\r\n", date_now.hour);
-        Serial.printf("min: %d\r\n", date_now.minute);
-        Serial.printf("sec: %d\r\n", date_now.second);
-
         if(action_mode == CLOCK){
   
             clear_led_data();
-            set_min_led_data(date_now.minute,led_data);
-            set_hour_led_data(date_now.hour,date_now.minute,led_data);
+            set_min_led_data(date_now.tm_min, led_data);
+            set_hour_led_data(date_now.tm_hour, date_now.tm_min, led_data);
             SPI.writeBytes(led_data,sizeof(led_data));
             
         }
