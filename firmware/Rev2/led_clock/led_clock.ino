@@ -11,6 +11,8 @@
 #include <freertos/task.h>
 #include <esp_task_wdt.h>
 
+#include "wifi_credential.h"
+
 #define LED_DRIVER_NUM (8)
 #define CHANNEL_NUM (16)
 #define OE_PIN (17)
@@ -28,8 +30,8 @@ const char* ap_pass = ""; //ESP32 softAP password
 const IPAddress ip(192, 168, 4, 1); //
 const IPAddress subnet(255, 255, 255, 0); //
 
-const char* sta_ssid = ""; //ESP32 STA SSID
-const char* sta_pass = ""; //ESP32 STA password
+const char* sta_ssid = WIFI_STA_SSID; //ESP32 STA SSID
+const char* sta_pass = WIFI_STA_PASS; //ESP32 STA password
 
 // NTP
 const char* ntpServer = "ntp.jst.mfeed.ad.jp";
