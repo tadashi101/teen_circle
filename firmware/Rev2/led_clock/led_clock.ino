@@ -7,6 +7,7 @@
 #include "freertos/task.h"
 #include "esp_task_wdt.h"
 #include "math.h"
+#include <ArduinoOTA.h>
 
 #define LED_DRIVER_NUM (8)
 #define CHANNEL_NUM (16)
@@ -149,6 +150,51 @@ void set_brightness(int brightness_num){
   ledcWrite(1, 255-brightness_num);
 }
 
+
+static void setupArduinoOTA(void)
+{
+  // Port defaults to 3232
+  // ArduinoOTA.setPort(3232);
+
+  // Hostname defaults to esp3232-[MAC]
+  ArduinoOTA.setHostname("TeenCircle");
+
+  // No authentication by default
+  // ArduinoOTA.setPassword("admin");
+
+  // Password can be set with it's md5 value as well
+  // MD5(admin) = 21232f297a57a5a743894a0e4a801fc3
+  // ArduinoOTA.setPasswordHash("21232f297a57a5a743894a0e4a801fc3");
+
+  ArduinoOTA
+    .onStart([]() {
+      String type;
+      if (ArduinoOTA.getCommand() == U_FLASH)
+        type = "sketch";
+      else // U_SPIFFS
+        type = "filesystem";
+
+      // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
+      Serial.println("Start updating " + type);
+    })
+    .onEnd([]() {
+      Serial.println("\nEnd");
+    })
+    .onProgress([](unsigned int progress, unsigned int total) {
+      Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+    })
+    .onError([](ota_error_t error) {
+      Serial.printf("Error[%u]: ", error);
+      if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
+      else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
+      else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
+      else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
+      else if (error == OTA_END_ERROR) Serial.println("End Failed");
+    });
+
+  ArduinoOTA.begin();
+}
+
 void setup() {
   // put your setup code here, to run once:
 
@@ -207,11 +253,13 @@ void setup() {
   // NTP サーバを設定
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 
+  setupArduinoOTA();
 }
 
 void loop() {
   demo_led_pattern(action_mode);
-
+  
+  ArduinoOTA.handle();
 }
 
 void IRAM_ATTR set_min_led_data(int input_min,uint8_t *data){
