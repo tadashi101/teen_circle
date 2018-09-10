@@ -20,11 +20,11 @@
 //led driver has 16 channels output for led array
 //min : index from 0 to 7
 //hour : 8 to 15
-uint8_t led_data[LED_DRIVER_NUM * 2] = { 0 };
-uint8_t mintable[8] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80 };
-int brightness = 0;
+static uint8_t led_data[LED_DRIVER_NUM * 2] = { 0 };
+const uint8_t mintable[8] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80 };
+static int brightness = 0;
 
-AsyncWebServer server(80);
+static AsyncWebServer server(80);
 const char* ap_ssid = ""; //ESP32 softAP SSID
 const char* ap_pass = ""; //ESP32 softAP password
 const IPAddress ip(192, 168, 4, 1); //
@@ -209,8 +209,6 @@ static void setupArduinoOTA(void)
 
 void setup()
 {
-    // put your setup code here, to run once:
-
     pinMode(OE_PIN, OUTPUT);
     digitalWrite(OE_PIN, LOW);
 
@@ -359,7 +357,6 @@ void one_sec_task(void* arg)
         getLocalTime(&date_now);
 
         if (action_mode == CLOCK) {
-
             clear_led_data();
             set_min_led_data(date_now.tm_min, led_data);
             set_hour_led_data(date_now.tm_hour, date_now.tm_min, led_data);
@@ -413,7 +410,6 @@ void startup_pattern()
 
 void demo_led_pattern(ACTION_MODE now_mode)
 {
-
     if (now_mode == CLOCK) {
         return;
     }
