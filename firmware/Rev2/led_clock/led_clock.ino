@@ -25,6 +25,14 @@ const char *ap_pass = ""; //ESP32 softAP password
 const IPAddress ip(192, 168, 4, 1);      //
 const IPAddress subnet(255, 255, 255, 0); //
 
+const char *sta_ssid = ""; //ESP32 STA SSID
+const char *sta_pass = ""; //ESP32 STA password
+
+// NTP
+const char* ntpServer =  "ntp.jst.mfeed.ad.jp";
+const long  gmtOffset_sec = 9 * 3600;
+const int   daylightOffset_sec = 0;
+
 TaskHandle_t taskHandle1;
 
 enum ACTION_MODE {
@@ -158,6 +166,7 @@ void setup() {
 
   startup_pattern();
 
+  WiFi.mode(WIFI_AP_STA);
   WiFi.softAP(ap_ssid, ap_pass);           // SSID
   delay(100);                        //
   WiFi.softAPConfig(ip, ip, subnet); //
@@ -186,6 +195,18 @@ void setup() {
     //1秒毎のtask生成
   xTaskCreatePinnedToCore(one_sec_task, "task1", 4096 * 3, NULL, 1, &taskHandle1, 1);
   
+  // connect to WiFi
+  Serial.printf("Connecting to %s ", sta_ssid);
+  WiFi.begin(sta_ssid, sta_pass);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println(" CONNECTED");
+  
+  // NTP サーバを設定
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+
 }
 
 void loop() {
