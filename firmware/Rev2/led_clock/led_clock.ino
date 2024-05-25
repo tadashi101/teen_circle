@@ -52,16 +52,26 @@ enum ACTION_MODE action_mode = CLOCK;
 void onBody(AsyncWebServerRequest* request, uint8_t* data, size_t len, size_t index, size_t total)
 {
     //Handle body
+#if ARDUINOJSON_VERSION_MAJOR >= 7
+    JsonDocument root;
+#else
     StaticJsonBuffer<200> jsonBuffer;
+#endif
     String url = request->url();
     Serial.println(url);
 
     if (url == "/setting") {
         Serial.printf("setting\r\n");
+#if ARDUINOJSON_VERSION_MAJOR >= 7
+        DeserializationError error = deserializeJson(root, data);
+        // パースが成功したか確認、できなきゃ終る
+        if (error) {
+#else        
         JsonObject& root = jsonBuffer.parseObject(data);
 
         // パースが成功したか確認。できなきゃ終了
         if (!root.success()) {
+#endif            
             Serial.println("parseObject() failed");
         }
 
@@ -117,10 +127,17 @@ void onBody(AsyncWebServerRequest* request, uint8_t* data, size_t len, size_t in
 
     } else if (url == "/light") {
         Serial.printf("light\r\n");
+#if ARDUINOJSON_VERSION_MAJOR >= 7
+        JsonDocument root_1;
+        DeserializationError error = deserializeJson(root_1, data);
+        // パースが成功したか確認、できなきゃ終る
+        if (error) {
+#else
         JsonObject& root_1 = jsonBuffer.parseObject(data);
 
         // パースが成功したか確認。できなきゃ終了
         if (!root_1.success()) {
+#endif
             Serial.println("parseObject() failed");
         }
         brightness = root_1["light"];
