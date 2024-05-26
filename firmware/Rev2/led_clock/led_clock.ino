@@ -1,17 +1,23 @@
+#include <WiFiManager.h> // https://github.com/tzapu/WiFiManager
+
+// wifimanager can run in a blocking mode or a non blocking mode
+// Be sure to know how to process loops with no delay() if using non blocking
+bool wm_nonblocking = true; // change to true to use non blocking
+
+WiFiManager wm; // global wm instance
+WiFiManagerParameter custom_field; // global param ( for non blocking w params )
+
 #include <math.h>
 #include <time.h>
 
 #include <ArduinoJson.h>
 #include <ArduinoOTA.h>
-#include <ESPAsyncWebServer.h>
 #include <SPI.h>
 #include <SPIFFS.h>
 #include <WiFi.h>
 
 #include <freertos/task.h>
 #include <esp_task_wdt.h>
-
-#include "wifi_credential.h"
 
 #define LED_DRIVER_NUM (8)
 #define CHANNEL_NUM (16)
@@ -22,16 +28,7 @@
 //hour : 8 to 15
 static uint8_t led_data[LED_DRIVER_NUM * 2] = { 0 };
 const uint8_t mintable[8] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80 };
-static int brightness = 0;
-
-static AsyncWebServer server(80);
-const char* ap_ssid = ""; //ESP32 softAP SSID
-const char* ap_pass = ""; //ESP32 softAP password
-const IPAddress ip(192, 168, 4, 1); //
-const IPAddress subnet(255, 255, 255, 0); //
-
-const char* sta_ssid = WIFI_STA_SSID; //ESP32 STA SSID
-const char* sta_pass = WIFI_STA_PASS; //ESP32 STA password
+static int brightness = 128;
 
 // NTP
 const char* ntpServer = "ntp.jst.mfeed.ad.jp";
@@ -49,7 +46,7 @@ enum ACTION_MODE {
 
 enum ACTION_MODE action_mode = CLOCK;
 
-void onBody(AsyncWebServerRequest* request, uint8_t* data, size_t len, size_t index, size_t total)
+void onBody(String url)
 {
     //Handle body
 #if ARDUINOJSON_VERSION_MAJOR >= 7
@@ -57,9 +54,8 @@ void onBody(AsyncWebServerRequest* request, uint8_t* data, size_t len, size_t in
 #else
     StaticJsonBuffer<200> jsonBuffer;
 #endif
-    String url = request->url();
-    Serial.println(url);
-
+    String data = wm.server->arg("plain");
+    uint8_t len = sizeof(data); 
     if (url == "/setting") {
         Serial.printf("setting\r\n");
 #if ARDUINOJSON_VERSION_MAJOR >= 7
@@ -111,16 +107,16 @@ void onBody(AsyncWebServerRequest* request, uint8_t* data, size_t len, size_t in
     } else if (url == "/mode") {
         Serial.printf("mode\r\n");
         //remove count for null string
-        if (strncmp("CLOCK", (char*)data, sizeof("CLOCK") - 1) == 0) {
+        if (strncmp("CLOCK", data.c_str(), sizeof("CLOCK") - 1) == 0) {
             action_mode = CLOCK;
             Serial.printf("clock_mode\r\n");
-        } else if (strncmp("DEMO1", (char*)data, sizeof("DEMO1") - 1) == 0) {
+        } else if (strncmp("DEMO1", data.c_str(), sizeof("DEMO1") - 1) == 0) {
             action_mode = DEMO1;
             Serial.printf("demo1\r\n");
-        } else if (strncmp("DEMO2", (char*)data, sizeof("DEMO2") - 1) == 0) {
+        } else if (strncmp("DEMO2", data.c_str(), sizeof("DEMO2") - 1) == 0) {
             action_mode = DEMO2;
             Serial.printf("demo2\r\n");
-        } else if (strncmp("DEMO3", (char*)data, sizeof("DEMO3") - 1) == 0) {
+        } else if (strncmp("DEMO3", data.c_str(), sizeof("DEMO3") - 1) == 0) {
             action_mode = DEMO3;
             Serial.printf("demo3\r\n");
         }
@@ -143,13 +139,27 @@ void onBody(AsyncWebServerRequest* request, uint8_t* data, size_t len, size_t in
         brightness = root_1["light"];
 
         set_brightness(brightness);
+        write_brightness(brightness); 
 
         Serial.printf("light: %d\n", brightness);
     }
 
     Serial.printf("Bodylen = %d\r\n", len);
 
-    request->send(200, "text/html", "");
+    wm.server->send(200, "text/html", "OK");
+}
+
+void bindServerCallback(){
+    wm.server->on("/setting", HTTP_POST, [](){onBody("/setting");}); 
+    wm.server->on("/mode", HTTP_POST, [](){onBody("/mode");}); 
+}
+
+void saveParamCallback(){
+    if(wm.server->hasArg("light")) {
+        brightness = wm.server->arg("light").toInt(); 
+        set_brightness(brightness);
+        write_brightness(brightness);
+    } 
 }
 
 void IRAM_ATTR clear_led_data()
@@ -173,6 +183,35 @@ void IRAM_ATTR fill_led_data()
 void set_brightness(int brightness_num)
 {
     ledcWrite(1, 255 - brightness_num);
+}
+
+void write_brightness(int brightness_num)
+{
+    File fp = SPIFFS.open("/brightness.txt", "w"); 
+    if (!fp) {
+        Serial.printf("File Open Error\r\n"); 
+    }
+    else {
+        //Serial.printf("Write File: brightness.txt = %d\r\n", brightness_num); 
+        fp.print(brightness_num); 
+        fp.close(); 
+    }
+}
+
+uint8_t read_brightness() {
+    uint8_t val = 128;
+    if (SPIFFS.exists("/brightness.txt")) {
+        File fp = SPIFFS.open("/brightness.txt", "r"); 
+        if (!fp) {
+            Serial.printf("File Open Error\r\n"); 
+        }
+        else {
+            val = fp.readString().toInt(); 
+            //Serial.printf("Read File: brightness.txt = %d\r\n", val); 
+            fp.close(); 
+        }
+    }
+    return val; 
 }
 
 static void setupArduinoOTA(void)
@@ -241,41 +280,89 @@ void setup()
     startup_pattern();
 
     WiFi.mode(WIFI_AP_STA);
-    WiFi.softAP(ap_ssid, ap_pass); // SSID
-    delay(100); //
-    WiFi.softAPConfig(ip, ip, subnet); //
 
-    IPAddress myIP = WiFi.softAPIP(); // WiFi.softAPIP()
-
-    delay(500);
+    // WiFiManager Settings
+    //wm.setDebugOutput(true, WM_DEBUG_DEV);
+    //wm.debugPlatformInfo();
+    // wm.resetSettings(); // wipe settings
+    // wm.erase(); 
 
     if (!SPIFFS.begin(true)) {
         Serial.println("SPIFFS Mount Failed");
         return;
     }
+    brightness = read_brightness(); 
 
-    server.serveStatic("/", SPIFFS, "/www").setDefaultFile("default.html");
-    server.onRequestBody(onBody);
+    if(wm_nonblocking) wm.setConfigPortalBlocking(false);
 
-    server.begin();
+    // callbacks
+    wm.setWebServerCallback(bindServerCallback); 
+    wm.setSaveParamsCallback(saveParamCallback); 
+
+    // set custom html head content , inside <head>
+    const char* headhtml = "<style>\
+                                .wrap_left_align {\
+                                text-align: left;\
+                                display: inline-block;\
+                                min-width: 75px;\
+                                max-width: 150px\
+                            }\
+                            </style>";
+    wm.setCustomHeadElement(headhtml);
+    
+    // custom html
+    char* custom_link = (char *)malloc(1024); 
+    sprintf(custom_link, "\
+            <div class='wrap_left_align'> \
+                <button type=\"button\" onclick=\"history.back()\">Back</button> \
+            </div>\
+            <hr />\
+            <h1></h1>\
+            <h3>teencircle</h3>\
+            <div>\
+                Brightness Setting<br/><input type=\"number\" name=\"light\" id=\"id_light\" size=\"4\" min=\"0\" max=\"255\" value=\"%d\">", brightness);
+    new (&custom_field) WiFiManagerParameter(custom_link); // custom html input
+    wm.addParameter(&custom_field);
+    // custom menu
+    const char* menuhtml = "<form action='/setting_new.html' method='get'><button>Manual Time Settings</button></form><br/> \
+                            <form action='/demo.html' method='get'><button>Mode Setting</button></form>\n";
+    wm.setCustomMenuHTML(menuhtml); 
+    //std::vector<const char *> menu = {"wifi","wifinoscan","info","param","custom","close","sep","erase","update","restart","exit"};
+    std::vector<const char *> menu = {"wifi","param","custom", "sep", "update", "erase", "restart"};
+    wm.setMenu(menu);
+    // set dark theme
+    wm.setClass("invert");
+    wm.setTitle(""); 
+    
+    // wifi scan settings
+    // wm.setRemoveDuplicateAPs(false); // do not remove duplicate ap names (true)
+    wm.setMinimumSignalQuality(40);  // set min RSSI (percentage) to show in scans, null = 8%
+    // wm.setShowInfoErase(false);      // do not show erase button on info page
+    // wm.setScanDispPerc(true);       // show RSSI as percentage not graph icons
+    
+    //wm.setBreakAfterConfig(true);   // always exit configportal even if wifi save fails
+
+    if(!wm.autoConnect("teencircle")) {
+        Serial.println("Failed to connect");
+        // ESP.restart();
+    } 
+    else {
+        //if you get here you have connected to the WiFi    
+        Serial.println("connected...yeey :)");
+        wm.startConfigPortal("teencircle"); 
+    }
+
+    delay(500);
+    wm.server->serveStatic("/", SPIFFS, "/www/"); 
 
     //init pwm for brightness
     ledcAttachPin(12, 1); // assign RGB led pins to channels
     ledcSetup(1, 12000, 8); // 12 kHz PWM, 8-bit resolution
 
-    set_brightness(255);
+    set_brightness(brightness);
 
     //1秒毎のtask生成
     xTaskCreatePinnedToCore(one_sec_task, "task1", 4096 * 3, NULL, 1, &taskHandle1, 1);
-
-    // connect to WiFi
-    Serial.printf("Connecting to %s ", sta_ssid);
-    WiFi.begin(sta_ssid, sta_pass);
-    while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
-        Serial.print(".");
-    }
-    Serial.println(" CONNECTED");
 
     // NTP サーバを設定
     configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
@@ -285,6 +372,13 @@ void setup()
 
 void loop()
 {
+    wm.process();
+
+    if(!wm.getConfigPortalActive()) {
+        wm.startConfigPortal("teencircle"); 
+        wm.server->serveStatic("/", SPIFFS, "/www/"); 
+    }; 
+        
     demo_led_pattern(action_mode);
 
     ArduinoOTA.handle();
@@ -428,6 +522,7 @@ void startup_pattern()
 void demo_led_pattern(ACTION_MODE now_mode)
 {
     if (now_mode == CLOCK) {
+        set_brightness(brightness); 
         return;
     }
 
@@ -444,7 +539,6 @@ void demo_led_pattern(ACTION_MODE now_mode)
 void demo_pattern1()
 {
     static int i = LED_DRIVER_NUM * 2 - 1;
-    static int j = 0;
     static int k = 0;
     static uint8_t send_data = 0x01;
 
@@ -475,7 +569,6 @@ void demo_pattern1()
 void demo_pattern2()
 {
     static int i = LED_DRIVER_NUM * 2 - 1;
-    static int j = 0;
     static int k = 0;
     static uint8_t send_data = 0x01;
 
