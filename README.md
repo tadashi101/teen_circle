@@ -8,8 +8,8 @@ Rev２から調光機能を追加しました。[設定方法はこちら](doc/u
 スマートフォンの画面からLEDの明るさを変更することができます  
 <img src="./image/Rev2/image_rev2_comp.jpg" width=50% hight=50% title="light_comp">  
 
-Rev3基板からUSB PD(9V)電源で動作するように変更されました。電源基板のレギュレータが熱くなる問題が解決されています。
-ファームウェアはRev 2以降で共通です
+Rev3基板からUSB PD(9V)電源で動作するように変更されました。電源基板のレギュレータが熱くなる問題が解決されています。  
+ファームウェアはRev 2以降で共通です  
 <img src="./image/Rev3/image_rev3_usbc.jpg" width=50% hight=50% title="light_comp">  
   
 紹介動画  
