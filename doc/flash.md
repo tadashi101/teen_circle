@@ -1,7 +1,8 @@
-# ファームウェアの書き込み方法  
-同梱されてるWi-FiモジュールESP-WROOM-32(ESP32)にはあらかじめファームウェアを書き込んでいます(こんな[ジグ](https://ja.aliexpress.com/store/product/ESP32-Test-Board-Small-Batch-Burn-Fixture-Min-System-Development-Board-For-ESP-WROOM-32-ESP/133513_32839223283.html)で)  
+# ファームウェアの書き込み方法
+同梱されてるWi-FiモジュールESP-WROOM-32(ESP32)にはあらかじめファームウェアを書き込んでいます
 このページの内容はファームウェアをアップデート、もしくは変更したい人向けになります  
   
+## Rev2基板までの場合
 1. ハーフピッチで2列の[ピンヘッダ](http://www.aitendo.com/product/6880)、[ピンソケット](http://www.aitendo.com/product/11345)などをJ3に半田付けします  
 <img src="../image/image_flash_1.jpg" width=70% title="J3">  
   
@@ -30,6 +31,40 @@ EN、IO0とGNDの間に[スイッチ](http://akizukidenshi.com/catalog/g/gP-0364
 5. ファームウェアをビルドします。ビルドする方法は将来書くかもしれません  
   
 6. ファームウェアを書き込みます  
+(1)Arduino IDEの場合  
+スケッチ→マイコンボードのの書き込みをクリックします  
+Connecting.......の表示になると、ENとIO0両方のスイッチのボタンを押し、ENのスイッチだけボタンを離します  
+<img src="../image/image_flash_4.PNG" width=70% title="Connect">  
+Writing～の表示になるとIO00側のボタンも離します  
+<img src="../image/image_flash_5.PNG" width=70% title="Writing">  
+Hard resetting..の表示になったらファームウェアが書き込めてます  
+<img src="../image/image_flash_6.PNG" width=70% title="Hard_reset">  
+リセットするためにENのスイッチのボタンを押して、離します
+
+これでリセットがかかり、書き込まれたファームでESP32が起動します  
+
+## Rev3基板の場合
+1. JSTのSH6Pコネクタ付ケーブルまたは[互換品](https://akizukidenshi.com/catalog/g/g114535/)を用意します
+  
+2. [CP2104/CH9102搭載 ESP32 ダウンローダキット](https://akizukidenshi.com/catalog/g/g117240/)または相当品のESP32書き込み基板を用意します
+  
+3. CN2とダウンローダキットをSH6Pケーブルで接続します  
+  
+| ESP32ダウンローダキット | 　 | CN2 |
+|-----------:|-----------:|-----------:|
+| GND | - | GND 6ピン |
+| G0 | - | PROG 5ピン |
+| EN | - | EN 1ピン |
+| RXD | - | RX ３ピン |
+| TXD | - | TX 2ピン |
+| 3.3V | - | 3.3V 4ピン |
+  
+ピン配置は基板のシルクも参考にして接続してください
+CP2104/CH9102搭載 ESP32 ダウンローダキット以外のESP32書き込み基板を使用する場合はTXD/RXDの定義が逆のこともありますので注意ください
+    
+4. ファームウェアをビルドします。ビルドする方法は将来書くかもしれません  
+  
+5. ファームウェアを書き込みます  
 (1)Arduino IDEの場合  
 スケッチ→マイコンボードのの書き込みをクリックします  
 Connecting.......の表示になると、ENとIO0両方のスイッチのボタンを押し、ENのスイッチだけボタンを離します  
