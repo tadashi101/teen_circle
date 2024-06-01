@@ -216,13 +216,13 @@ uint8_t read_brightness() {
     return val; 
 }
 
-static void setupArduinoOTA(void)
+static void setupArduinoOTA(char *hostname)
 {
     // Port defaults to 3232
     // ArduinoOTA.setPort(3232);
 
     // Hostname defaults to esp3232-[MAC]
-    ArduinoOTA.setHostname("TeenCircle");
+    ArduinoOTA.setHostname(hostname);
 
     // No authentication by default
     // ArduinoOTA.setPassword("admin");
@@ -281,6 +281,10 @@ void setup()
 
     startup_pattern();
 
+    uint8_t ap_mac[6]; 
+    esp_read_mac(ap_mac, ESP_MAC_WIFI_SOFTAP); 
+    sprintf(ap_ssid, "teencircle_%02X%02X%02X", ap_mac[3], ap_mac[4], ap_mac[5]); 
+    
     WiFi.mode(WIFI_AP_STA);
 
     // WiFiManager Settings
@@ -295,6 +299,7 @@ void setup()
     }
     brightness = read_brightness(); 
 
+    wm.setHostname(ap_ssid); 
     if(wm_nonblocking) wm.setConfigPortalBlocking(false);
 
     // callbacks
@@ -344,9 +349,6 @@ void setup()
     
     //wm.setBreakAfterConfig(true);   // always exit configportal even if wifi save fails
 
-    uint8_t ap_mac[6]; 
-    esp_read_mac(ap_mac, ESP_MAC_WIFI_SOFTAP); 
-    sprintf(ap_ssid, "teencircle_%02X%02X%02X", ap_mac[3], ap_mac[4], ap_mac[5]); 
     if(!wm.autoConnect(ap_ssid)) {
         Serial.println("Failed to connect");
         // ESP.restart();
@@ -372,7 +374,7 @@ void setup()
     // NTP サーバを設定
     configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 
-    setupArduinoOTA();
+    setupArduinoOTA(ap_ssid);
 }
 
 void loop()
