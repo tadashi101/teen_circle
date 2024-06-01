@@ -7,6 +7,8 @@ bool wm_nonblocking = true; // change to true to use non blocking
 WiFiManager wm; // global wm instance
 WiFiManagerParameter custom_field; // global param ( for non blocking w params )
 
+char ap_ssid[20] = "teencircle"; 
+
 #include <math.h>
 #include <time.h>
 
@@ -342,14 +344,17 @@ void setup()
     
     //wm.setBreakAfterConfig(true);   // always exit configportal even if wifi save fails
 
-    if(!wm.autoConnect("teencircle")) {
+    uint8_t ap_mac[6]; 
+    esp_read_mac(ap_mac, ESP_MAC_WIFI_SOFTAP); 
+    sprintf(ap_ssid, "teencircle_%02X%02X%02X", ap_mac[3], ap_mac[4], ap_mac[5]); 
+    if(!wm.autoConnect(ap_ssid)) {
         Serial.println("Failed to connect");
         // ESP.restart();
     } 
     else {
         //if you get here you have connected to the WiFi    
         Serial.println("connected...yeey :)");
-        wm.startConfigPortal("teencircle"); 
+        wm.startConfigPortal(ap_ssid); 
     }
 
     delay(500);
@@ -375,7 +380,7 @@ void loop()
     wm.process();
 
     if(!wm.getConfigPortalActive()) {
-        wm.startConfigPortal("teencircle"); 
+        wm.startConfigPortal(ap_ssid); 
         wm.server->serveStatic("/", SPIFFS, "/www/"); 
     }; 
         
